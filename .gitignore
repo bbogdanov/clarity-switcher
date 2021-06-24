@@ -1,0 +1,62 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+/dist
+/tmp
+/out-tsc
+/.ng_build
+
+/reports
+
+# dependencies
+node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.code-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+# !.vscode/tasks.json
+# !.vscode/launch.json
+# !.vscode/extensions.json
+
+# misc
+.awcache
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+testem.log
+/typings
+sauceconnect.log
+.env
+*.tsbuildinfo
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Local Netlify folder
+.netlify
+
+# Yarn
+yarn-error.log
+
+# Netlify logs
+logs/*
+
+# Chore
+
+*.js
+*.css
