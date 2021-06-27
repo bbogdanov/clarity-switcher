@@ -1,16 +1,10 @@
-# Webpack 
+# Clarity Switcher
 
-<img src="../_screenshots/webpack.png" width="400" />
+    In progress! !!! DO NOT USE IN PRODUCTION !!!
 
-Creates rectangles. Demonstrates bundling plugin code using Webpack.
+A Figma plugin to change components variant to provided variant easily.
 
-The main plugin code is in `src/code.ts`. The HTML for the UI is in
-`src/ui.html`, while the embedded JavaScript is in `src/ui.ts`.
+## Development env
 
-These are compiled to files in `dist/`, which are what Figma will use to run
-your plugin.
-
-To build:
-
-    $ npm install
-    $ npx webpack
+    $ yarn install
+    $ yarn start:watch

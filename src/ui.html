@@ -1,5 +1,27 @@
-<img src="<%= require('./logo.svg') %>" />
-<h2>Rectangle Creator</h2>
-<p>Count: <input id="count" value="5" /></p>
-<cds-button id="create">Create</cds-button>
-<cds-button id="cancel">Cancel</cds-button>
+<div cds-layout="p:md">
+  <div cds-layout="grid gap:md align:vertical-center">
+    <img cds-layout="grid col:3" src="<%= require('./logo.png') %>" />
+    <h2 cds-text="section" cds-layout="col:start-4 col:end-13">
+      Clarity Switcher
+    </h2>
+  </div>
+
+  <form id="change-prop-value">
+    <cds-form-group layout="horizontal" cds-layout="p-x:md p-y:lg">
+      <cds-input control-width="shrink" id="propertyName">
+        <label>Property name</label>
+        <input name="name" placeholder="What is the prop name" required />
+      </cds-input>
+      <cds-input control-width="shrink" id="propertyValue">
+        <label>Property value</label>
+        <input
+          name="value"
+          placeholder="What should the prop value be"
+          required
+        />
+      </cds-input>
+    </cds-form-group>
+    <cds-button>Run</cds-button>
+    <cds-button type="button" id="cancel" status="danger">Cancel</cds-button>
+  </form>
+</div>

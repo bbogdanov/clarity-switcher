@@ -1,20 +1,37 @@
-figma.showUI(__html__)
+import { InputNameValue } from "./utils/InputNameValue.interface";
+import { MessageTypes } from "./utils/messageTypes.enum";
+import { PostMessage } from "./utils/postMessage.interface";
+import { PostMessageTypes } from "./utils/postMessages.type";
 
-figma.ui.onmessage = msg => {
-  if (msg.type === 'create-rectangles') {
-    const nodes = []
-
-    for (let i = 0; i < msg.count; i++) {
-      const rect = figma.createRectangle()
-      rect.x = i * 150
-      rect.fills = [{type: 'SOLID', color: {r: 1, g: 0.5, b: 0}}]
-      figma.currentPage.appendChild(rect)
-      nodes.push(rect)
+const getAllComponentsInCurrentPage = () => {
+  return figma.currentPage.findAll((n: any) => {
+    const proto = n["__proto__"];
+    if (proto) {
+      return proto.constructor.name === "ComponentNode";
     }
 
-    figma.currentPage.selection = nodes
-    figma.viewport.scrollAndZoomIntoView(nodes)
+    return false;
+  });
+};
+
+figma.showUI(__html__, {
+  height: 400,
+  width: 400,
+});
+
+figma.ui.onmessage = ({ type, data }: PostMessage<PostMessageTypes>) => {
+  if (type === MessageTypes.ChangePropValue) {
+    const components = getAllComponentsInCurrentPage();
+
+    components.forEach((component: ComponentNode) => {
+      console.log(component, data);
+      // TODO: search for each component if it has variants of the `data.name` and set their value to `data.value`
+    });
+
+    return;
   }
 
-  figma.closePlugin()
-}
+  figma.closePlugin();
+};
+
+console.log(figma);
