@@ -3,15 +3,12 @@ import { MessageTypes } from "./utils/messageTypes.enum";
 import { PostMessage } from "./utils/postMessage.interface";
 import { PostMessageTypes } from "./utils/postMessages.type";
 
-const getAllComponentsInCurrentPage = () => {
-  return figma.currentPage.findAll((n: any) => {
-    const proto = n["__proto__"];
-    if (proto) {
-      return proto.constructor.name === "ComponentNode";
-    }
-
-    return false;
-  });
+const getAllComponentsInCurrentPage = (figma: {
+  currentPage: PageNode;
+}): InstanceNode[] => {
+  return figma.currentPage.findAll(
+    (n: { type: NodeType }) => n.type === "INSTANCE"
+  ) as InstanceNode[];
 };
 
 figma.showUI(__html__, {
@@ -20,18 +17,48 @@ figma.showUI(__html__, {
 });
 
 figma.ui.onmessage = ({ type, data }: PostMessage<PostMessageTypes>) => {
-  if (type === MessageTypes.ChangePropValue) {
-    const components = getAllComponentsInCurrentPage();
+  const instanceNodes: InstanceNode[] = getAllComponentsInCurrentPage(figma);
+  console.log("instanceNodes", instanceNodes);
 
-    components.forEach((component: ComponentNode) => {
-      console.log(component, data);
-      // TODO: search for each component if it has variants of the `data.name` and set their value to `data.value`
-    });
+  if (instanceNodes.length) {
+    const componentSets: ComponentSetNode[] = instanceNodes
+      .filter((x) => x?.mainComponent?.parent?.type === "COMPONENT_SET")
+      .map((x) => x?.mainComponent?.parent) as ComponentSetNode[];
 
-    return;
+    console.log(
+      componentSets[0].children
+        .filter((x) => x.name.includes("Success"))
+        .map((x) => x.name.split(",").find((x) => x.includes("Success")))
+    );
+
+    const darkModeComponent = componentSets[0].children.find((x) =>
+      x.name.includes("Success")
+    );
+    instanceNodes[0].swapComponent(darkModeComponent as ComponentNode);
   }
 
-  figma.closePlugin();
-};
+  // if (type === MessageTypes.ChangePropValue) {
+  //   const components = getAllComponentsInCurrentPage();
 
-console.log(figma);
+  //   const searchName = data.name + "=" + data.value;
+
+  //   const foundComponent = components.find((c) => c.name.includes(searchName));
+
+  //   console.log(foundComponent);
+
+  //   const a = foundComponent.createInstance();
+
+  //   console.log(a);
+
+  //   components.forEach((component: ComponentNode) => {
+  //     if (component.name.includes(data.name)) {
+  //       const split = component.name.split(",");
+  //       const findName = split.find((x) => x.includes(data.name));
+  //     }
+  //   });
+
+  //   return;
+  // }
+
+  // figma.closePlugin();
+};

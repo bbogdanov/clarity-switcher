@@ -19,7 +19,7 @@ const setup = () => {
       {
         pluginMessage: {
           type: MessageTypes.ChangePropValue,
-          prop: request,
+          data: request,
         },
       },
       "*"

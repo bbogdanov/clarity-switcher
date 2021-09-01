@@ -1,6 +1,4 @@
 export interface InputNameValue {
-  prop: {
-    name: string;
-    value: string;
-  };
+  name: string;
+  value: string;
 }
